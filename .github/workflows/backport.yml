@@ -20,7 +20,7 @@ jobs:
     steps:
       - name: Set target branches
         id: set-targets
-        uses: lampajr/kogito-pipelines/.ci/actions/parse-labels@main
+        uses: kiegroup/kogito-pipelines/.ci/actions/parse-labels@main
         with:
           labels: ${LABELS}
   backporting:
