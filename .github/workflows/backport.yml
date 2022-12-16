@@ -5,6 +5,7 @@ on:
     types: [closed, labeled]
     branches:
       - main
+      - prod
 
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
