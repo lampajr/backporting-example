@@ -14,6 +14,7 @@ on:
 
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  DEBUG: "simple-git:task:*,simple-git:output:*"
 
 jobs:
   backporting:
@@ -25,3 +26,4 @@ jobs:
         with:
           target-branch: ${{ inputs.targetBranch }}
           pull-request: ${{ inputs.pullRequest }}
+          auth: ${{ secrets.GITHUB_TOKEN }}
