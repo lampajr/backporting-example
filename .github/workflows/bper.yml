@@ -11,11 +11,6 @@ on:
         description: 'Pull request'
         required: true 
         type: string
-      committer:
-        description: 'Committer'
-        required: false
-        default: ${{ github.actor }} 
-        type: string
 
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -35,4 +30,3 @@ jobs:
           target-branch: ${{ inputs.targetBranch }}
           pull-request: ${{ inputs.pullRequest }}
           auth: ${{ secrets.GITHUB_TOKEN }}
-          committer: ${{ inputs.committer }}
