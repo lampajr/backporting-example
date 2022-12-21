@@ -11,7 +11,7 @@ on:
         description: 'Pull request'
         required: true 
         type: string
-      pullRequest:
+      committer:
         description: 'Committer'
         required: false
         default: ${{ github.actor }} 
