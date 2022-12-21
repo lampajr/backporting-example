@@ -11,6 +11,11 @@ on:
         description: 'Pull request'
         required: true 
         type: string
+      pullRequest:
+        description: 'Committer'
+        required: false
+        default: ${{ github.actor }} 
+        type: string
 
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -21,9 +26,13 @@ jobs:
     name: "Backporting"
     runs-on: ubuntu-latest
     steps:
+      - name: Print env
+        shell: bash
+        run: env
       - name: Backporting
         uses: lampajr/backporting@develop
         with:
           target-branch: ${{ inputs.targetBranch }}
           pull-request: ${{ inputs.pullRequest }}
           auth: ${{ secrets.GITHUB_TOKEN }}
+          committer: ${{ inputs.committer }}
