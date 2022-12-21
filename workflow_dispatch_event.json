@@ -1,0 +1,7 @@
+{
+	"inputs": {
+		"targetBranch": "develop",
+		"pullRequest": "https://github.com/lampajr/backporting-example/pull/19",
+		"committer": "pippo"
+	}
+}

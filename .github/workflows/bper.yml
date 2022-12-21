@@ -11,6 +11,15 @@ on:
         description: 'Pull request'
         required: true 
         type: string
+      committer:
+        description: 'Committer'
+        required: true 
+        type: string
+      dryRun:
+        description: 'Dry run'
+        required: false
+        default: "true" 
+        type: string
 
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -30,3 +39,5 @@ jobs:
           target-branch: ${{ inputs.targetBranch }}
           pull-request: ${{ inputs.pullRequest }}
           auth: ${{ secrets.GITHUB_TOKEN }}
+          committer: ${{ inputs.committer }}
+          dry-run: ${{ inputs.dryRun }}
