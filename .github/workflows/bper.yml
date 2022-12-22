@@ -30,7 +30,7 @@ jobs:
         shell: bash
         run: env
       - name: Backporting
-        uses: lampajr/backporting@develop
+        uses: lampajr/backporting@v0.0.1
         with:
           target-branch: ${{ inputs.targetBranch }}
           pull-request: ${{ inputs.pullRequest }}
