@@ -1,0 +1,47 @@
+on:
+  pull_request:
+    branches:
+      - main
+    types: ["closed", "labeled"]
+
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+jobs:
+  compute-targets:
+    if: ${{ github.event.pull_request.state == 'closed' && github.event.pull_request.merged }}
+    runs-on: ubuntu-latest
+    outputs:
+      target-branches: ${{ steps.set-targets.outputs.targets }}
+    env:
+      LABELS: ${{ toJSON(github.event.pull_request.labels) }}
+    steps:
+      - name: Set target branches
+        id: set-targets
+        uses: kiegroup/kogito-pipelines/.ci/actions/parse-labels@main
+        with:
+          labels: ${LABELS}
+  cherry_pick:
+    if: ${{ github.event.pull_request.state == 'closed' && github.event.pull_request.merged && needs.compute-targets.outputs.target-branches != '[]' }}
+    runs-on: ubuntu-latest
+    name: Cherry pick
+    needs: compute-targets
+    strategy:
+      matrix: 
+        target-branch: ${{ fromJSON(needs.compute-targets.outputs.target-branches) }}
+      fail-fast: false
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Cherry pick
+        uses: lampajr/github-cherry-pick-action@issue-44_sha
+        with:
+          labels: |
+            cherry-pick
+          reviewers: |
+            lampajr
+          title: '[cherry-pick] {old_title}'
+          body: 'Cherry picking #{old_pull_request_id} onto this branch'
+          branch: ${{ matrix.target-branch }}
