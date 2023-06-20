@@ -11,6 +11,10 @@ on:
         description: 'Pull request'
         required: true 
         type: string
+      title:
+        description: 'PR Title'
+        required: false 
+        type: string
       dryRun:
         description: 'Dry run'
         required: false
@@ -30,9 +34,10 @@ jobs:
         shell: bash
         run: env
       - name: Backporting
-        uses: lampajr/backporting@v0.0.1
+        uses: lampajr/backporting@main
         with:
           target-branch: ${{ inputs.targetBranch }}
           pull-request: ${{ inputs.pullRequest }}
           auth: ${{ secrets.GITHUB_TOKEN }}
+          title: ${{ inputs.title }}
           dry-run: ${{ inputs.dryRun }}
