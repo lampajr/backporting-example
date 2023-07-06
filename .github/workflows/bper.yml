@@ -1,4 +1,4 @@
-name: Pull Request Backporting using BPer
+name: Pull Request Backporting using Git Backporting
 
 on: 
   workflow_dispatch:
@@ -34,7 +34,7 @@ jobs:
         shell: bash
         run: env
       - name: Backporting
-        uses: lampajr/backporting@main
+        uses: kiegroup/git-backporting@main
         with:
           target-branch: ${{ inputs.targetBranch }}
           pull-request: ${{ inputs.pullRequest }}
