@@ -2,3 +2,4 @@ feature2: updated
 test2: updated
 feature2: updated x 2
 feature1: updated
+multiple change 2
