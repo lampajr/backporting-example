@@ -1,8 +1,10 @@
+name: Automated Backporting on PR merge using Git Backporting
+
 on:
-  pull_request:
+  pull_request_target:
+    types: [closed, labeled]
     branches:
       - main
-    types: ["closed", "labeled"]
 
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -18,30 +20,21 @@ jobs:
     steps:
       - name: Set target branches
         id: set-targets
-        uses: kiegroup/kogito-pipelines/.ci/actions/parse-labels@main
+        uses: kiegroup/kie-ci/.ci/actions/parse-labels@main
         with:
           labels: ${LABELS}
-  cherry_pick:
+  
+  backporting:
     if: ${{ github.event.pull_request.state == 'closed' && github.event.pull_request.merged && needs.compute-targets.outputs.target-branches != '[]' }}
+    name: "[${{ matrix.target-branch }}] - Backporting"
     runs-on: ubuntu-latest
-    name: Cherry pick
     needs: compute-targets
     strategy:
       matrix: 
         target-branch: ${{ fromJSON(needs.compute-targets.outputs.target-branches) }}
-      fail-fast: false
+      fail-fast: true
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
+      - name: Backporting
+        uses: lampajr/kie-ci/.ci/actions/backporting@BXMSPROD-2084_git_backporting
         with:
-          fetch-depth: 0
-      - name: Cherry pick
-        uses: lampajr/github-cherry-pick-action@issue-44_sha
-        with:
-          labels: |
-            cherry-pick
-          reviewers: |
-            lampajr
-          title: '[cherry-pick] {old_title}'
-          body: 'Cherry picking #{old_pull_request_id} onto this branch'
-          branch: ${{ matrix.target-branch }}
+          target-branch: ${{ matrix.target-branch }}

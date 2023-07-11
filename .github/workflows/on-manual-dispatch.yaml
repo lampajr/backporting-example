@@ -1,4 +1,4 @@
-name: Pull Request Backporting using Git Backporting
+name: Manual PR Backporting using Git Backporting
 
 on: 
   workflow_dispatch:
@@ -14,6 +14,11 @@ on:
       title:
         description: 'PR Title'
         required: false 
+        type: string
+      no-squash:
+        description: 'No squash'
+        required: false
+        default: "false"
         type: string
       dryRun:
         description: 'Dry run'
@@ -40,4 +45,5 @@ jobs:
           pull-request: ${{ inputs.pullRequest }}
           auth: ${{ secrets.GITHUB_TOKEN }}
           title: ${{ inputs.title }}
+          no-squash: ${{ inputs.no-squash }}
           dry-run: ${{ inputs.dryRun }}
