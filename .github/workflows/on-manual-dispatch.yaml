@@ -3,28 +3,72 @@ name: Manual PR Backporting using Git Backporting
 on: 
   workflow_dispatch:
     inputs:
-      targetBranch:
-        description: 'Target branch'
-        required: true
-        type: string
-      pullRequest:
-        description: 'Pull request'
-        required: true 
-        type: string
+      pull-request:
+        description: "URL of the pull request to backport, e.g., https://github.com/kiegroup/git-backporting/pull/1"
+        required: false
+      target-branch:
+        description: "Branch where the pull request must be backported to"
+        required: false
+      config-file:
+        description: "Path to a file containing the json configuration for this tool, the object must match the Args interface"
+        required: false
+      dry-run:
+        description: "If enabled the tool does not create any pull request nor push anything remotely"
+        required: false
+        default: "true"
+      auth:
+        description: "GITHUB_TOKEN or a `repo` scoped Personal Access Token (PAT)"
+        default: ${{ github.token }}
+        required: false
+      git-user:
+        description: "Local git user name"
+        default: "GitHub"
+        required: false
+      git-email:
+        description: "Local git user email"
+        default: "noreply@github.com"
+        required: false
       title:
-        description: 'PR Title'
-        required: false 
-        type: string
-      no-squash:
-        description: 'No squash'
+        description: "Backporting PR title. Default is the original PR title prefixed by the target branch"
+        required: false
+      body:
+        description: "Backporting PR body. Default is the original PR body prefixed by `backport: <original-pr-link>`"
+        required: false
+      body-prefix:
+        description: "Backporting PR body prefix. Default is `backport: <original-pr-link>`"
+        required: false
+      bp-branch-name:
+        description: "Backporting PR branch name. Default is auto-generated from commit"
+        required: false
+      reviewers:
+        description: "Comma separated list of reviewers for the backporting pull request"
+        required: false
+      assignees:
+        description: "Comma separated list of reviewers for the backporting pull request"
+        required: false
+      no-inherit-reviewers:
+        description: "Considered only if reviewers is empty, if true keep reviewers as empty list, otherwise inherit from original pull request"
         required: false
         default: "false"
-        type: string
-      dryRun:
-        description: 'Dry run'
+      labels:
+        description: "Comma separated list of labels to be assigned to the backported pull request"
         required: false
-        default: "true" 
-        type: string
+      inherit-labels:
+        description: "If true the backported pull request will inherit labels from the original one"
+        required: false
+        default: "false"
+      no-squash:
+        description: "If set to true the tool will backport all commits as part of the pull request instead of the suqashed one"
+        required: false
+        default: "false"
+      strategy:
+        description: "Cherry-pick merge strategy"
+        required: false
+        default: "recursive"
+      strategy-option:
+        description: "Cherry-pick merge strategy option"
+        required: false
+        default: "theirs"
 
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -41,9 +85,22 @@ jobs:
       - name: Backporting
         uses: kiegroup/git-backporting@main
         with:
-          target-branch: ${{ inputs.targetBranch }}
-          pull-request: ${{ inputs.pullRequest }}
+          target-branch: ${{ inputs.target-branch }}
+          pull-request: ${{ inputs.pull-request }}
           auth: ${{ secrets.GITHUB_TOKEN }}
+          config-file: ${{ inputs.title }}
+          git-user: ${{ inputs.git-user }}
+          git-email: ${{ inputs.git-email }}
           title: ${{ inputs.title }}
+          body: ${{ inputs.body }}
+          body-prefix: ${{ inputs.body-prefix }}
+          bp-branch-name: ${{ inputs.bp-branch-name }}
+          reviewers: ${{ inputs.reviewers }}
+          assignees: ${{ inputs.assignees }}
+          no-inherit-reviewers: ${{ inputs.no-inherit-reviewers }}
+          labels: ${{ inputs.labels }}
+          inherit-labels: ${{ inputs.inherit-labels }}
           no-squash: ${{ inputs.no-squash }}
-          dry-run: ${{ inputs.dryRun }}
+          strategy: ${{ inputs.strategy }}
+          strategy-option: ${{ inputs.strategy-option }}
+          dry-run: ${{ inputs.dry-run }}
