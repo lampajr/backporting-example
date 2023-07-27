@@ -35,6 +35,6 @@ jobs:
       fail-fast: true
     steps:
       - name: Backporting
-        uses: lampajr/kie-ci/.ci/actions/backporting@BXMSPROD-2084_git_backporting
+        uses: lampajr/kie-ci/.ci/actions/backporting@BXMSPROD-2087_improve_backporting_body
         with:
           target-branch: ${{ matrix.target-branch }}

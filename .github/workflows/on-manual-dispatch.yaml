@@ -83,7 +83,7 @@ jobs:
         shell: bash
         run: env
       - name: Backporting
-        uses: kiegroup/git-backporting@main
+        uses: lampajr/git-backporting@main
         with:
           target-branch: ${{ inputs.target-branch }}
           pull-request: ${{ inputs.pull-request }}
