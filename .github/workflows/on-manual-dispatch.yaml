@@ -16,15 +16,15 @@ on:
         description: "If enabled the tool does not create any pull request nor push anything remotely"
         required: false
         default: "true"
-      # title:
-      #   description: "Backporting PR title. Default is the original PR title prefixed by the target branch"
-      #   required: false
-      # body:
-      #   description: "Backporting PR body. Default is the original PR body prefixed by `backport: <original-pr-link>`"
-      #   required: false
-      # body-prefix:
-      #   description: "Backporting PR body prefix. Default is `backport: <original-pr-link>`"
-      #   required: false
+      title:
+        description: "Backporting PR title. Default is the original PR title prefixed by the target branch"
+        required: false
+      body:
+        description: "Backporting PR body. Default is the original PR body prefixed by `backport: <original-pr-link>`"
+        required: false
+      body-prefix:
+        description: "Backporting PR body prefix. Default is `backport: <original-pr-link>`"
+        required: false
       bp-branch-name:
         description: "Backporting PR branch name. Default is auto-generated from commit"
         required: false
@@ -91,9 +91,9 @@ jobs:
           # config-file: ${{ inputs.title }}
           # git-user: ${{ inputs.git-user }}
           # git-email: ${{ inputs.git-email }}
-          # title: ${{ inputs.title }}
-          # body: ${{ inputs.body }}
-          # body-prefix: ${{ inputs.body-prefix }}
+          title: ${{ inputs.title }}
+          body: ${{ inputs.body }}
+          body-prefix: ${{ inputs.body-prefix }}
           bp-branch-name: ${{ inputs.bp-branch-name }}
           # reviewers: ${{ inputs.reviewers }}
           # assignees: ${{ inputs.assignees }}
