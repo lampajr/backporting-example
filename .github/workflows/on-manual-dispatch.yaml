@@ -72,7 +72,7 @@ on:
 
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  DEBUG: "simple-git:task:*,simple-git:output:*"
+  # DEBUG: "simple-git:task:*,simple-git:output:*"
 
 jobs:
   backporting:
