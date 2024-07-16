@@ -2,5 +2,5 @@ feature2: updated
 test2: updated
 feature2: updated x 2
 feature1: updated
-force conflict
-force conflict x2
+multiple change 2
+multiple-commits: #2
